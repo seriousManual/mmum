@@ -1,0 +1,700 @@
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="Bier, Rezepte, Rezeptdatenbank, Hobbybrauen, Heimbrauen, brauen">
+<title>MaischeMalzundMehr</title>
+<link rel="icon" href="./bilder/beer_ico.ico">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="mmum_css_layout.css">
+<link rel="stylesheet" type="text/css" href="mmum_css_main.css">
+<link rel="stylesheet" type="text/css" href="mmum_css_tools.css">
+<link rel="stylesheet" type="text/css" media="print" href="mmum_css_print.css">
+</head>
+
+
+
+<body>
+<a name="OBEN"></a>
+
+
+<div id="container">
+
+<!-- Code Menu oben -->
+<div id="topcontainer">
+<div id="top">
+<a href="index.php?inhaltmitte=lr">
+  <img id="logo" src="./bilder/logo.png">
+</a>
+
+<div id="cssmenu">
+<a class="toggleMenu" href="#" style="display: none;"><span class="hamburger"></span>Menu</a>
+<ul class="nav">
+ <li><a href="index.php">Start</a></li>
+ <li><a href="#" class="parent">TOOLS</a>
+  
+   <ul class="submenu">
+	 <li>  
+     <a href="index.php?inhaltmitte=toolsiburechner">	
+      <div> 
+	  <img src="./bilder/icon_hopfen3.svg">
+      </div> 
+      <div>
+      IBU<span>IBU-Rechner nach Tinseth</span>
+      </div>
+     </a>
+	 </li>		 
+	 <li>
+	  <a href="index.php?inhaltmitte=toolsspeiserechner">	
+      <div> 
+	  <img src="./bilder/icon_manometer.svg">
+      </div> 
+      <div>
+      Karbonisierung<span>Speise-, Zucker- und Spunddruckrechner</span>
+      </div>
+      </a>
+	 </li>
+	 <li>	
+	  <a href="index.php?inhaltmitte=toolsmalzfarbe">	
+      <div> 
+	  <img src="./bilder/icon_farbe.svg">
+      </div> 
+      <div>
+		  Malzfarben-Umrechner<span>Rechne EBC in SRM oder °L um</span>
+      </div>
+      </a>
+	 </li>
+	<li>	
+	<a href="index.php?inhaltmitte=toolsrefraktorechner">	
+      <div> 
+	  <img src="./bilder/icon_refraktometer.svg">
+      </div> 
+      <div>
+		  Refraktometer-Rechner<span>Endvergärungsgrad und Alkohol mittels Refraktometer bestimmen</span>
+      </div>
+     </a>
+		</li>
+	<li>	
+	<a href="index.php?inhaltmitte=toolsspindelrechner">	
+      <div> 
+	  <img id="icon_menu_spindelrechner" src="./bilder/icon_spindel.svg">
+      </div> 
+      <div>
+		  Spindel-Rechner<span>Endvergärungsgrad und Alkohol mittels Spindel bestimmen</span>
+      </div>
+     </a>
+		</li>
+	<li>	
+	<a href="index.php?inhaltmitte=toolssudhausausbeute">	
+      <div> 
+	  <img src="./bilder/icon_sudhausausbeute.svg">
+      </div> 
+      <div>
+		  Sudhausausbeute<span>Sudhausausbeute berechnen</span>
+      </div>
+     </a> 
+		</li>
+	<li>	
+	<a href="index.php?inhaltmitte=toolswasserrechner">	
+      <div> 
+	  <img src="./bilder/icon_wasser.svg">
+      </div> 
+      <div>
+		  Wasseraufbereitung<span>Bereite Dein Brauwasser auf!</span>
+      </div>
+     </a>   
+		</li>
+	     
+  	</ul>
+	</li>	 
+ 
+ 	
+ <li><a href="#" class="parent">EXPERIMENTE</a>
+  <ul class="submenu">
+   <li>	  
+   <a href="index.php?inhaltmitte=exp_maischph">	
+    <div><img src="./bilder/icon_exp_maischeph.svg"></div> 
+    <div>Maische-pH<span>Vorhersage des Maische-pH Wertes</span></div>
+   </a> 
+	   </li>
+  </ul>	  
+ </li>
+	
+ <li><a href="index.php?inhaltmitte=faq">FAQs</a></li>
+ <li><a href="index.php?inhaltmitte=lr&amp;id=&amp;login=ja" class="icon-login-1">Login</a></li>
+ 
+ 
+</ul> 
+</div>		
+
+<script type="text/javascript" src="script.js"></script>			  				  				  				  				  				  				  				  				  				  				  				  				  				  </div>
+</div>
+
+<!-- Code Mitte -->
+<div id="containermitte">
+<div id="leftnav">
+<div id="links">
+<script type="text/javascript">
+
+$(document).ready(function() {
+  $(".plus_zutat").click(function(e) { //on add input button click
+    e.preventDefault();
+    $(".zutatenliste").append('<div class="zutat"><select class="enthalten" name="zutat_enthalten[]"><option value="ja") selected>Rezept enthält...</option><option value="nein">Rezept enthält nicht...</option></select><select name="zutat_kategorie[]"><option>...</option><option value="suche_malz">Malz/Rohfrucht</option><option value="suche_hopfen">Hopfen</option><option value="suche_weitere">Weitere Zutat</option><option value="suche_hefe">Hefe</option></select><select name="zutat[]"><option>...</option></select><a href="#" class="entferne_zutat icon-cancel"></a></div>'); //add input box
+  });
+  $(".zutatenliste").on("click", ".entferne_zutat", function(e) { //user click on remove text
+    e.preventDefault();
+    $(this).parent('div').remove();
+  })
+  var suche_malz = [
+      {value: "Buchweizen", display: "Buchweizen"},       
+      {value: "Car%amber", display: "Caraamber"},
+      {value: "Car%ar%m", display: "Caraaroma"},
+      {value: "Car%belg", display: "Carabelge"},
+      {value: "ara%dunkel", display: "Caradunkel"},
+      {value: "Carafa", display: "Carafa II"},
+      {value: "ara%hell", display: "Carahell"},
+      {value: "Caramünch", display: "Caramünch"},
+      {value: "Car%pils", display: "Carapils"},
+      {value: "Car%red", display: "Carared"}, 
+      {value: "cho%o", display: "Chocolate malt"},
+      {value: "Dinkel", display: "Dinkel (Malz/Rohfrucht)"},    
+      {value: "Emmer", display: "Emmermalz"},   
+      {value: "Gerstenflocken", display: "Gerstenflocken"},
+      {value: "Haferflocken", display: "Haferflocken"},
+      {value: "Hafer%alz", display: "Hafermalz"},
+      {value: "Heidelberger", display: "Heidelberger Malz"},       
+      {value: "Maisflocken", display: "Maisflocken"},
+      {value: "Otter", display: "Maris Otter Pale Ale Malt"},
+      {value: "Mela", display: "Melanoidinmalz"},
+      {value: "Münch%er", display: "Münchner Malz"},
+      {value: "Pale Ale", display: "Pale Ale Malz"},
+      {value: "Pale%Chocolate", display: "Pale Chocolate"},
+      {value: "Pils%er", display: "Pilsner Malz"},
+      {value: "Polenta", display: "Polenta"},
+      {value: "Rauch", display: "Rauchmalz"},
+      {value: "Red%X", display: "Red X"},
+      {value: "Reis", display: "Reis"},      
+      {value: "Roggen", display: "Roggenmalz"},
+      {value: "Röstgerste", display: "Röstgerste"},
+      {value: "Röstmalz", display: "Röstmalz"},
+      {value: "Sauermalz", display: "Sauermalz"},
+      {value: "Special%B", display: "Special B"},
+      {value: "Special%W", display: "Special W"},
+      {value: "Tennenmalz", display: "Tennenmalz"},
+      {value: "Weizen", display: "Weizenmalz"},
+      {value: "Wiener", display: "Wiener Malz"},
+      {value: "Whisk%malz", display: "Whiskymalz"}
+  ];
+  var suche_hopfen = [
+      {value: "Ariana", display: "Ariana"},
+      {value: "Amarillo", display: "Amarillo"},
+      {value: "Apollo", display: "Apollo"},
+      {value: "Aurora", display: "Aurora"},
+      {value: "Azacca", display: "Azacca"},
+      {value: "Boadicea", display: "Boadicea"},
+      {value: "Brewers Gold", display: "Brewers Gold"},
+      {value: "Callista", display: "Callista"},
+      {value: "Cascade", display: "Cascade"},
+      {value: "Celeia", display: "Celeia"},
+      {value: "Centennial", display: "Centennial"},
+      {value: "Citra", display: "Citra"},
+      {value: "Challenger", display: "Challenger"},
+      {value: "Chinook", display: "Chinook"},
+      {value: "Cluster", display: "Cluster"},
+      {value: "Columbus", display: "Columbus"},
+      {value: "Comet", display: "Comet"},
+      {value: "Crystal", display: "Crystal"},
+      {value: "East Kent Golding", display: "East Kent Goldings"},
+      {value: "El Dorado", display: "El Dorado"},
+      {value: "Ella", display: "Ella"},
+      {value: "Equinox", display: "Equinox"},
+      {value: "Fuggle", display: "Fuggles"},
+      {value: "Galaxy", display: "Galaxy"},
+      {value: "Galena", display: "Galena"},
+      {value: "Glacier", display: "Glacier"},
+      {value: "Green Bullet", display: "Green Bullet"},
+      {value: "%Blanc", display: "Hallertau Blanc"},
+      {value: "%Mittelfr", display: "Hallertau Mittelfrüh"},
+      {value: "%Tradition", display: "Hallertau Tradition"},
+      {value: "Herkules", display: "Herkules"},
+      {value: "Hersbrucker", display: "Hersbrucker"},
+      {value: "Horizon", display: "Horizon"},
+      {value: "H%l%Mel%n", display: "Huell Melon"},
+	{value: "Jarrylo", display: "Jarrylo"},
+      {value: "Kazbek", display: "Kazbek"},
+      {value: "Lemondrop", display: "Lemondrop"},
+      {value: "Lubelski", display: "Lubelski"},
+      {value: "Magnum", display: "Magnum"},
+      {value: "Mandarina Bavaria", display: "Mandarina Bavaria"},
+	{value: "Marynka", display: "Marynka"},
+      {value: "Monroe", display: "Monroe"},
+      {value: "Mosaic", display: "Mosaic"},
+      {value: "Motueka", display: "Motueka"},
+      {value: "Mount Hood", display: "Mount Hood"},
+      {value: "Nelson Sauvin", display: "Nelson Sauvin"},
+      {value: "Northern Brewer", display: "Northern Brewer"},
+      {value: "Nugget", display: "Nugget"},
+      {value: "Opal", display: "Opal"},
+      {value: "Pacific Gem", display: "Pacific Gem"},
+      {value: "Palisade", display: "Palisade"},
+      {value: "Perle", display: "Perle"},
+      {value: "Pilgrim", display: "Pilgrim"},
+      {value: "Pilot", display: "Pilot"},
+      {value: "Polaris", display: "Polaris"},
+      {value: "Rakau", display: "Rakau"},
+      {value: "Riwaka", display: "Riwaka"},
+      {value: "Saaz", display: "Saaz"},
+      {value: "Saphir", display: "Saphir"},
+      {value: "Simcoe", display: "Simcoe"},
+      {value: "Sorachi Ace", display: "Sorachi Ace"},
+      {value: "Southern Cross", display: "Southern Cross"},
+      {value: "Spalter Select", display: "Spalter Select"},
+      {value: "Sticklebract", display: "Sticklebract"},
+      {value: "Stri%elspalter", display: "Strisselspalter"},
+      {value: "Styrian Golding", display: "Styrian Golding"},
+      {value: "Sybilla", display: "Sybilla"},
+      {value: "Target", display: "Target"},
+      {value: "Taurus", display: "Taurus"},
+      {value: "Tettnanger", display: "Tettnanger"},
+      {value: "Topaz", display: "Topaz"},
+      {value: "Vic%Secret", display: "Vic Secret"},
+      {value: "%Wai%iti", display: "Wai-iti"},
+      {value: "Waimea", display: "Waimea"},
+      {value: "Willamette", display: "Willamette"}
+      ];
+  var suche_weitere = [
+      {value: "Beifu", display: "Beifuß"},  
+      {value: "Fichten", display: "Fichtennadeln/-spitzen"},  
+      {value: "Hagebutte", display: "Hagebutte"},      
+      {value: "Hibiskus", display: "Hibiskusblüten"}, 
+      {value: "Himbeeren", display: "Himbeeren"},      
+      {value: "holunder", display: "Holunderblüten"},     
+      {value: "Honig", display: "Honig"}, 
+      {value: "chips", display: "Holzchips (z.B. Whisky)"}, 
+      {value: "Jasmin%", display: "Jasminblüten"},  
+      {value: "Johan%beeren", display: "Johannisbeeren"},      
+      {value: "Kaf%irlime", display: "Kaffirlimettenblätter"},      
+      {value: "Kardamom", display: "Kardamom"}, 
+      {value: "Kirschen", display: "Kirschen"},
+      {value: "Koriander", display: "Koriander"},
+      {value: "Kümmel", display: "Kümmel"},
+      {value: "Muskat", display: "Muskat"}, 
+      {value: "Nelken", display: "Nelken"}, 
+      {value: "Orangen", display: "Orangenschale"}, 
+      {value: "Petersilie", display: "Petersilie"}, 
+      {value: "Piment", display: "Piment"}, 
+      {value: "Rosmarin", display: "Rosmarin"},
+      {value: "Safran", display: "Safran"}, 
+      {value: "Sirup", display: "Sirup"},  
+      {value: "Pfeffer", display: "Schwarzer Pfeffer"},     
+      {value: "Salbei", display: "Salbei"},
+      {value: "Sternanis", display: "Sternanis"},
+      {value: "S%holzwurzel", display: "Süßholzwurzel"},
+      {value: "Thymian", display: "Thymian"}, 
+      {value: "Vanil", display: "Vanilleschoten"},
+      {value: "Waln", display: "Walnüsse"},
+      {value: "Zimt", display: "Zimt"}, 
+      {value: "ngras", display: "Zitronengras"},        
+      {value: "Zitronenschale", display: "Zitronenschale"},
+      {value: "Zucker", display: "Zucker"}
+      ];
+  var suche_hefe = [
+      {value: "Brewferm Blanche", display: "Brewferm Blanche"},
+      {value: "Brewferm Top", display: "Brewferm Top"},
+      {value: "%Belle%Saison", display: "Danstar Belle Saison"},
+      {value: "BRY%97", display: "Danstar BRY-97 American West Coast"},
+      {value: "Diamond", display: "Danstar Diamond Lager"},      
+      {value: "Munich%Wheat", display: "Danstar Munich Wheat"},
+      {value: "Nottingham", display: "Danstar Nottingham"},
+      {value: "Windsor", display: "Danstar Windsor"},
+      {value: "Gozdawa%German Lager", display: "GOZDAWA German Lager W35"},
+      {value: "Gozdawa%Pure Ale", display: "GOZDAWA Pure Ale Yeast 7"},
+      {value: "Gozdawa%Bavarian Wheat", display: "GOZDAWA Bavarian Wheat11"},
+      {value: "Gozdawa%Belgian%Fruit", display: "GOZDAWA Belgian Fruit & Spicy Ale Yeast"},
+      {value: "Gozdawa%Porter", display: "GOZDAWA Porter & Kvass"},
+      {value: "Gozdawa%Czech", display: "GOZDAWA Czech Pilsner 18"},
+      {value: "Gozdawa%Alt", display: "GOZDAWA Old German Altbier 9"},
+      {value: "Gozdawa%West%Coast", display: "GOZDAWA U.S. West Coast"},
+      {value: "Gozdawa%Witbier", display: "GOZDAWA Classic Belgian Witbier"},
+      {value: "Gozdawa%Fruit%Blanche", display: "GOZDAWA Fruit Blanche G1"},
+      {value: "Gutmann", display: "Gutmann (gestrippt)"}, 
+      {value: "A15", display: "Imperial Yeast A15 Independence"},
+      {value: "L05", display: "Imperial Yeast L05 Cablecar"},
+      {value: "L28", display: "Imperial Yeast L28 Urkel"},
+      {value: "Kuchlbauer", display: "Kuchlbauer (gestrippt)"},       
+      {value: "Maisel%Weis", display: "Maisels Weisse (gestrippt)"},       
+      {value: "Malzwerkstatt%Brasseur", display: "Malzwerkstatt Maitre Brasseur"},
+      {value: "Malzwerkstatt%Colonia", display: "Malzwerkstatt Colonia F"},
+      {value: "Malzwerkstatt%Ludwig", display: "Malzwerkstatt König Ludwig"},
+      {value: "Malzwerkstatt%Nottingham", display: "Malzwerkstatt Nottingham"},      
+      {value: "Mangrov%M03", display: "Mangrove Jacks M03 - UK Dark Ale"},
+      {value: "Mangrove%M07", display: "Mangrove Jacks M07 - British Ale"},
+      {value: "Mangrove%M10", display: "Mangrove Jacks M10 - Workhorse"},
+      {value: "Mangrove%M20", display: "Mangrove Jacks M20 - Bavarian Wheat"},
+      {value: "Mangrove%M27", display: "Mangrove Jacks M27 - Belgian Ale"},
+      {value: "Mangrove%M29", display: "Mangrove Jacks M29 - French Sasion"},  
+      {value: "Mangrove%M36", display: "Mangrove Jacks M36 - Liberty Bell Ale"}, 
+      {value: "Mangrove%M42", display: "Mangrove Jacks M42 - New World Strong Ale"},   
+      {value: "Mangrove%M44", display: "Mangrove Jacks M44 - U.S. West Coast"},
+      {value: "Mangrove%M54", display: "Mangrove Jacks M54 - California Lager"},
+      {value: "Mangrove%M79", display: "Mangrove Jacks M79 - Burton Union"},
+      {value: "Mangrove%M84", display: "Mangrove Jacks M84 - Bohemian Lager"},
+      {value: "Muntons%Gold", display: "Muntons Premium Gold"},
+      {value: "Riedenburger", display: "Riedenburger (gestrippt)"},
+      {value: "Rochefort", display: "Rochefort (gestrippt)"},
+      {value: "Schneider", display: "Schneider (gestrippt)"},      
+      {value: "K%97", display: "Safale K-97"},
+      {value: "S%04", display: "Safale S-04"},
+      {value: "US%05", display: "Safale US-05"},
+      {value: "Safbrew%Abbaye", display: "Safbrew Abbaye"},
+      {value: "S%33", display: "Safbrew S-33"},
+      {value: "T%58", display: "Safbrew T-58"},
+      {value: "WB%06", display: "Safbrew WB-06"},
+      {value: "S%189", display: "Saflager S-189"},
+      {value: "S%23", display: "Saflager S-23"},
+      {value: "W34%70", display: "Saflager W34/70"},
+      {value: "Bay%Vermont", display: "The Yeast Bay - Vermont Ale"},
+      {value: "Bay%Sais%tanomyces", display: "The Yeast Bay - Saison/Brettanomyces Blend"},
+      {value: "Tomcat", display: "Tomcat"},
+      {value: "WLP%001", display: "WLP001 (California Ale)"},
+      {value: "WLP%002", display: "WLP002 (English Ale)"},
+      {value: "WLP%005", display: "WLP005 (British Ale)"},
+      {value: "WLP%007", display: "WLP007 (Dry English Ale)"},
+      {value: "WLP%028", display: "WLP028 (Edinburgh Scottish Ale)"},
+      {value: "WLP%029", display: "WLP029 (German Ale/Kölsch)"},  
+      {value: "WLP%051", display: "WLP051 (California Ale V)"},    
+      {value: "WLP%300", display: "WLP300 (Hefeweizen Ale)"},      
+      {value: "WLP%500", display: "WLP500 (Trappist Ale)"},
+      {value: "WLP%566", display: "WLP566 (Belgian Saison II)"},      
+      {value: "WLP%802", display: "WLP802 (Czech Budejovice Lager)"},      
+      {value: "WLP%810", display: "WLP810 (San Francisco Lager)"},      
+      {value: "WLP%830", display: "WLP830 (German Lager)"},
+      {value: "WLP%833", display: "WLP833 (German Bock)"},
+      {value: "WLP%850", display: "WLP850 (Copenhagen Lager)"},   
+      {value: "WSL%17", display: "WSL-17 (S.ludwigii)"},     
+      {value: "1007", display: "Wyeast 1007 (German Ale)"},
+      {value: "1010", display: "Wyeast 1010 (American Wheat)"},
+      {value: "1028", display: "Wyeast 1028 (London Ale)"},
+      {value: "1056", display: "Wyeast 1056 (American Ale)"},
+      {value: "1084", display: "Wyeast 1084 (Irish Ale)"},
+      {value: "1098", display: "Wyeast 1098 (British Ale)"},
+      {value: "1099", display: "Wyeast 1099 (Whitbread Ale)"},
+      {value: "1187", display: "Wyeast 1187 (Ringwood Ale)"},
+      {value: "1214", display: "Wyeast 1214 (Belgian Abbey)"},
+      {value: "1272", display: "Wyeast 1272 (American Ale II)"},
+      {value: "1318", display: "Wyeast 1318 (London Ale III)"},
+      {value: "1335", display: "Wyeast 1335 (British Ale II)"},
+      {value: "1338", display: "Wyeast 1338 (European Ale)"},
+      {value: "1388", display: "Wyeast 1388 (Belgian Strong Ale)"},
+      {value: "1728", display: "Wyeast 1728 (Scottish Ale)"},
+      {value: "1762", display: "Wyeast 1762 (Belgian Abbey II)"},
+      {value: "1968", display: "Wyeast 1968 (London ESB Ale)"},
+      {value: "2000", display: "Wyeast 2000 (Budvar Lager)"},
+      {value: "2001", display: "Wyeast 2001 (Urquell)"},
+      {value: "2007", display: "Wyeast 2007 (Pilsen Lager)"},
+      {value: "2042", display: "Wyeast 2042 (Danish Lager)"},
+      {value: "2112", display: "Wyeast 2112 (California Lager)"},
+      {value: "2124", display: "Wyeast 2124 (Bohemian Lager)"},
+      {value: "2206", display: "Wyeast 2206 (Bavarian Lager)"},
+      {value: "2278", display: "Wyeast 2278 (Czech Pils)"},
+      {value: "2247", display: "Wyeast 2247 (European Lager)"},
+      {value: "2308", display: "Wyeast 2308 (Munich Lager)"},
+      {value: "2565", display: "Wyeast 2565 (Kölsch)"},
+      {value: "3068", display: "Wyeast 3068 (Weihenstephan Weizen)"},
+      {value: "3333", display: "Wyeast 3333 (German Wheat)"},
+      {value: "3463", display: "Wyeast 3463 (Forbidden Fruit)"},      
+      {value: "3638", display: "Wyeast 3638 (Bavarian Wheat)"},
+      {value: "3711", display: "Wyeast 3711 (French Saison)"},
+      {value: "3724", display: "Wyeast 3724 (Belgian Saison)"},
+      {value: "3787", display: "Wyeast 3787 (Trappist High Gravity)"},
+      {value: "3944", display: "Wyeast 3944 (Belgian Witbier)"},
+      {value: "Zymoferm%34", display: "Zymoferm Z034 (Typ Ayinger)"},
+      {value: "Zymoferm%43", display: "Zymoferm Z043 (Weißer Schöps)"}
+      ];
+  //If parent option is changed
+  $('.zutatenliste').on('change', "[name='zutat_kategorie[]']", function() {
+    var parent = $(this).val();
+    var next = $(this).next("[name='zutat[]']"); //get option value from parent
+    switch (parent) { //using switch compare selected option and populate   child
+      case 'suche_malz':
+        list(next, suche_malz);
+        break;
+      case 'suche_hopfen':
+        list(next, suche_hopfen);
+        break;
+      case 'suche_weitere':
+        list(next, suche_weitere);
+        break;
+      case 'suche_hefe':
+        list(next, suche_hefe);
+        break;  
+      default: //default child option is blank
+        next.empty();
+        break;
+    }
+  });
+  //function to populate child select box
+  function list(next, array_list) {
+
+    //reset child options
+    next.empty();
+    array_list.forEach(function(e) { //populate child options
+      next.append("<option value=" + e.value + ">" + e.display + "</option>");
+    });
+  }
+});
+
+</script>
+
+<form action="index.php" method="get">
+<input type="hidden" name="inhaltmitte" value="lr">
+
+
+<div id="rs_wrapper">
+<h3>Rezeptsuche</h3>
+<div class="rs_block13">
+
+<div class="rs_block12">
+<div class="rs_block1">
+<div>
+<select name="suche_sorte" class="aktiv">
+        <option>Sorte (egal)</option>      <option value="Alkoholfreies/-armes">Alkoholfreies/-armes</option>
+      <option value="Belgisches Blonde Ale">Ale, Belgisches Blonde</option>
+      <option value="Belgisches Dubble/Triple">Ale, Belgisches Dubbel/Triple</option>
+      <option value="Belgisches Dunkel">Ale, Belgisches Dunkel</option>
+      <option value="Belgisches Witbier/Blanche">Ale, Belgisches Witbier/Blanche</option>
+      <option value="Bitter">Ale, Bitter</option>
+      <option value="Brown Ale">Ale, Brown</option>
+      <option value="Cascadian Dark Ale">Ale, Cascadian Dark Ale</option>
+      <option value="Französisches Ale">Ale, Französisches Ale</option>
+      <option value="India Pale Ale">Ale, India Pale Ale</option>
+      <option value="Irish Ale">Ale, Irish</option>
+      <option value="Mild Ale">Ale, Mild</option>
+      <option value="Old Ale">Ale, Old</option>
+      <option value="Pale Ale">Ale, Pale</option>
+      <option value="Scottish Ale">Ale, Scottish</option>
+      <option value="Strong Ale">Ale, Strong Ale</option>
+      <option value="Altbier">Altbier</option>
+      <option value="Barley Wine">Barley Wine</option>
+      <option value="Heller Doppelbock">Bock, Doppelbock hell</option>
+      <option value="Dunkler Doppelbock">Bock, Doppelbock dunkel</option>
+      <option value="Dunkles Bockbier">Bock, Dunkel</option>
+      <option value="Eisbock">Bock, Eisbock</option>
+      <option value="Helles Bockbier">Bock, Hell</option>
+      <option value="Maibock">Bock, Maibock</option>
+      <option value="California common">California common</option>
+      <option value="Dinkelbier">Dinkelbier</option>
+      <option value="Emmerbier">Emmerbier</option>
+      <option value="Sauerbier">Sauerbier</option>
+      <option value="Frucht, Gewürz- und Kräuterbiere">Frucht, Gewürz- und Kräuterbiere</option>
+      <option value="Ingwerbier/Ginger beer">Ingwerbier/Ginger beer</option>
+      <option value="Kellerbier">Kellerbier</option>
+      <option value="American Lager">Lager, American</option>
+      <option value="Helles">Lager, Helles</option>
+      <option value="Dunkles Lager">Lager, Dunkles</option>
+      <option value="Export">Lager, Export</option>
+      <option value="Märzen/Oktoberfest">Lager, Märzen/Oktoberfest</option>
+      <option value="Schwarzbier">Lager, Schwarzes</option>
+      <option value="Kölsch">Kölsch</option>
+      <option value="Malzbier">Malzbier</option>
+      <option value="Met">Met</option>
+      <option value="American Pilsner">Pilsner, American</option>
+      <option value="Böhmisches Pilsner">Pilsner, Böhmisches</option>
+      <option value="Deutsches Pilsner">Pilsner, Deutsches</option>
+      <option value="Imperial Pilsner">Pilsner, Imperial</option>
+      <option value="Brown Porter">Porter, Brown</option>
+      <option value="Baltic Porter">Porter, Baltic</option>
+      <option value="Robust Porter">Porter, Robust</option>
+      <option value="Rauchbier">Rauchbier</option>
+      <option value="Roggenbier">Roggenbier</option>
+      <option value="Saison">Saison</option>
+      <option value="Stout" selected="">Stout</option>
+      <option value="Weizenbock">Weizen, Bock</option>
+      <option value="Dunkles Hefeweizen">Weizen, Dunkel</option>
+      <option value="Helles Hefeweizen">Weizen, Hell</option>
+      <option value="...außer Kategorie">...außer Kategorie</option>
+</select>
+</div>
+<div>
+<select name="suche_maische">
+  <option selected="Maische (egal)">Maische (egal)</option>      <option>Infusion</option>
+      <option>Dekoktion</option>
+</select>
+</div>
+<div>
+<select name="suche_gaerung">
+  <option selected="Gärung (egal)">Gärung (egal)</option>      <option>untergärig</option>
+      <option>obergärig</option>
+</select>
+</div>
+</div>
+<div class="rs_block2">
+<div>
+<select name="suche_order" class="aktiv">
+        <option>Sortierung (keine)</option>       <option value="Alkohol aufsteigend">Alkohol ↑</option>
+      <option value="Alkohol absteigend">Alkohol ↓</option>
+      <option value="Bittere aufsteigend">Bittere ↑</option>
+      <option value="Bittere absteigend">Bittere ↓</option>
+      <option value="Empfehlungen aufsteigend">Empfehlungen ↑</option>
+      <option value="Empfehlungen absteigend">Empfehlungen ↓</option>
+      <option value="Farbe aufsteigend">Farbe ↑</option>
+      <option value="Farbe absteigend">Farbe ↓</option>
+      <option value="Kommentare aufsteigend">Kommentare ↑</option>
+      <option value="Kommentare absteigend" selected="">Kommentare ↓</option>
+      <option value="Stammwürze aufsteigend">Stammwürze ↑</option>
+      <option value="Stammwürze absteigend">Stammwürze ↓</option>
+</select>
+</div>
+<div>
+<label class="chckbox_container"><span id="rs_klon_txt">Klon-Rezepte</span>
+  <input id="rs_klon_chk" type="checkbox" name="suche_klonrezepte" value="ja">
+  <span class="chckbox_neu"></span>
+</label>
+</div>
+<div>
+<label class="chckbox_container"><span id="rs_anf_txt">Anfängertauglich</span>
+  <input id="rs_anf_chk" type="checkbox" name="suche_anfaenger" value="ja" class="rahmenfarblos">
+  <span class="chckbox_neu"></span>
+</label>
+</div>
+
+</div> 
+</div>
+
+<div class="rs_block3">
+
+<div class="rs_zeit_wrapper">
+ <div class="rs_zeit top">     
+  <div><img src="./bilder/von.svg"></div>
+  <div><img src="./bilder/bis.svg"></div>
+ </div>
+ <div class="rs_zeit">
+  <div class="bottom"><input type="date" name="timestamp1" value=""></div>
+  <div class="bottom rechts"><input type="date" name="timestamp2" value=""></div>      
+ </div>      
+</div>
+
+
+<div>
+<input type="text" name="suche_begriff" value="mb stout" placeholder="Suchbegriff" class="aktiv">
+</div>
+
+<div class="zutatenliste">
+ </div>
+
+<div id="rs_plus_suche">
+ <div class="plus_zutat"><span>plus</span></div>
+ <div> <input name="suche" class="button" type="Submit" value="Suche"> </div>
+</div>
+
+</div> 
+</div> 
+</div>
+</form></div>
+</div>
+<div id="content">
+<div style="margin: 0 1em 1em 1em;">
+
+<h3 class="center">Deine Suche ergab 1 Rezept</h3>
+
+
+<div class="pagination">
+</div>
+ 
+
+<div id="lr_block">
+
+
+
+
+
+
+
+<div class="lr"> 
+<a class="rezeptlink" href="index.php?id=86&amp;inhaltmitte=rezept&amp;suche_sorte=Stout&amp;suche_begriff=mb stout&amp;suche_order=Kommentare absteigend"> 
+ <div class="lr_element12">
+ 
+ <div class="lr_element1">
+  <div class="lr_name_sorte_icons">
+  <div class="lr_name">
+   MB Stout<span class="lr_sorte"> Stout</span>
+  </div> 
+  <div class="lr_iconliste">
+  <img class="icon_kommentare" src="./bilder/icon_kommentar.svg" border="0"><span class="zahl_kommentare">1</span><img class="icon_empfehlungen" src="./bilder/icon_empfehlung.svg" border="0"><span class="zahl_empfehlungen">2</span>  </div>
+  </div>
+    <div class="lr_autor"><b>Von: muldengold</b>&nbsp;16.02.11, 17:20 Uhr</div>
+ </div>    
+ 
+ <div class="lr_element2">
+ <div class="lr_sw">14°P</div>
+ <div class="lr_ibu">56 IBU</div>
+ <div class="lr_col">100<img class="icon_col" src="./bilder/bier_100plusebc_gross.png"> EBC</div>
+ <div class="lr_ferm"><img class="icon_gaerung" src="./bilder/icon_obergaerig.svg"></div>
+ <div class="lr_alc">5.5 vol%</div>
+ </div>
+ </div>
+ 
+ <div class="lr_kurzbeschr">Leckeres Stout. Simples aber authentisches Rezept. Mildes Röstaroma und rabenschwarzer Farbe.</div>
+</a>
+</div>
+
+ 
+
+</div>
+
+<div class="pagination">
+</div>
+
+
+
+   
+   
+
+
+
+
+
+		  				  </div>
+</div>
+
+<!-- Code Rechtes Menu -->
+<div id="rightnav">
+<p>
+
+ <img id="logo2" class="zentriert" src="./bilder/logo2.png" title="Kontakt">
+ 
+</p>
+
+
+						  				  				  				  				  				  				  				  				  				  				  				  				  				  				  </div>
+
+<div id="footer">
+
+<div id="fusszeile">
+<p>
+<a href="index.php?inhaltmitte=kontakt">Kontakt</a>&nbsp;∣&nbsp;<a href="index.php?inhaltmitte=datenschutz">Datenschutzerklärung</a>&nbsp;∣&nbsp;<a href="index.php?inhaltmitte=impressum">Impressum</a>
+</p>
+<p id="statistik_unten">
+Anzahl Rezepte: 875&nbsp;∣&nbsp; 
+Anzahl Sorten: 54&nbsp;∣&nbsp;
+Anzahl Autoren: 340&nbsp;∣&nbsp;
+Registrierte Nutzer: 4440</p>
+</div>
+
+
+
+
+						  				  				  				  				  				  				  				  				  				  				  				  				  				  				  </div>
+</div> <!-- Ende Container Mitte -->
+
+</div> <!-- Ende Container -->
+
+
+
+
+
+
+
+
+
+
+				  				  				  </body></html>
