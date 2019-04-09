@@ -7,6 +7,8 @@ function inputParam(term) {
     return term.replace(/-/g, ' ');
 }
 
+const PORT = process.env.PORT || 8080;
+
 express()
     .get('/', (req, res, next) => res.end('ohay'))
     .get('/:term', async (req, res, next) => {
@@ -23,4 +25,4 @@ express()
 
         res.redirect(302, myParser.getUrlForTerm(term));
     })
-    .listen(3000);
+    .listen(PORT);
