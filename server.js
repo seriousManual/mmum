@@ -8,6 +8,7 @@ function inputParam(term) {
 }
 
 express()
+    .get('/', (req, res, next) => res.end('ohay'))
     .get('/:term', async (req, res, next) => {
         const term = inputParam(req.params.term);
         const result = await myParser.get(term);
