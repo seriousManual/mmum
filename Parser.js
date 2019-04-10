@@ -8,7 +8,6 @@ class Parser {
     async get(term) {
         term = querystring.escape(term);
         const url = this.getUrlForTerm(term);
-        console.log('querying for ' + url);
         const result = await axios.get(url);
 
         const $ = cheerio.load(result.data);
